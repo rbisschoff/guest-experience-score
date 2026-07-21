@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Guest Experience Score — Operator Series</title>
+  <meta name="description" data-i18n-meta="description" content="A good rating can hide a guest who almost complained. Score how attentively you listen beyond the public review score. Part of the Operator Series.">
+  <link rel="alternate" hreflang="en" href="https://rbisschoff.github.io/guest-experience-score/?lang=en">
+  <link rel="alternate" hreflang="it" href="https://rbisschoff.github.io/guest-experience-score/?lang=it">
+  <link rel="alternate" hreflang="de" href="https://rbisschoff.github.io/guest-experience-score/?lang=de">
+  <link rel="alternate" hreflang="x-default" href="https://rbisschoff.github.io/guest-experience-score/?lang=en">
+
+  <meta property="og:title" data-i18n-meta="ogTitle" content="Guest Experience Score — Operator Series">
+  <meta property="og:description" data-i18n-meta="ogDescription" content="A good rating can hide a guest who almost complained. Score listening signals beyond the headline review score.">
+  <meta property="og:type" content="website">
+
+  <script>
+    (function () {
+      const supported = ['en', 'it', 'de'];
+      const queryValue = new URLSearchParams(window.location.search).get('lang');
+      let lang;
+      if (queryValue !== null) {
+        lang = supported.includes(queryValue.toLowerCase()) ? queryValue.toLowerCase() : 'en';
+      } else {
+        try { lang = localStorage.getItem('ois-lang'); } catch (e) {}
+        if (!supported.includes(lang)) {
+          const browserLang = (navigator.language || '').slice(0, 2).toLowerCase();
+          lang = supported.includes(browserLang) ? browserLang : 'en';
+        }
+      }
+      document.documentElement.lang = lang;
+      window.__oisInitialLang = lang;
+      try { localStorage.setItem('ois-lang', lang); } catch (e) {}
+      const metadata = {
+        en: {
+          description: 'A good rating can hide a guest who almost complained. Score how attentively you listen beyond the public review score.',
+          ogTitle: 'Guest Experience Score — Operator Series',
+          ogDescription: 'A good rating can hide a guest who almost complained. Score listening signals beyond the headline review score.'
+        },
+        it: {
+          description: 'Una buona valutazione può nascondere un ospite che stava per lamentarsi. Misura quanto ascolti oltre il punteggio pubblico.',
+          ogTitle: 'Guest Experience Score — Operator Series',
+          ogDescription: 'Una buona valutazione può nascondere un ospite che stava per lamentarsi. Segnali di ascolto oltre il rating pubblico.'
+        },
+        de: {
+          description: 'Eine gute Bewertung kann einen Gast verbergen, der sich beinahe beschwert hätte. Bewerten Sie, wie aufmerksam Sie wirklich zuhören.',
+          ogTitle: 'Guest Experience Score — Operator Series',
+          ogDescription: 'Eine gute Bewertung kann einen unzufriedenen Gast verbergen. Signale jenseits der öffentlichen Bewertung.'
+        }
+      };
+      window.updateOisMetadata = function (activeLang) {
+        const pack = metadata[activeLang] || metadata.en;
+        document.querySelectorAll('[data-i18n-meta]').forEach(function (el) {
+          const value = pack[el.getAttribute('data-i18n-meta')];
+          if (value) el.setAttribute('content', value);
+        });
+      };
+      window.updateOisMetadata(lang);
+    })();
+  </script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JPJ7VKS451"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JPJ7VKS451');
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --accent: #007AFF;
+      --accent-dark: #0051D5;
+      --accent-light: rgba(0, 122, 255, 0.12);
+      --accent-secondary: #5856D6;
+      --alert: #FF3B30;
+      --positive: #34C759;
+      --warning: #FF9500;
+
+      --ink: #1C1C1E;
+      --ink2: #3A3A3C;
+      --muted: #8E8E93;
+      --muted2: #AEAEB2;
+
+      --bg: #F2F2F7;
+      --card: #FFFFFF;
+      --card2: #F9F9FB;
+      --border: rgba(60, 60, 67, 0.12);
+      --border-light: rgba(60, 60, 67, 0.08);
+
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.08);
+      --shadow-card: 0 2px 16px rgba(0,0,0,0.06);
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --section-gap: 28px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, 'Inter', BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: rgba(8,8,14,0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .header-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+    .brand-mark {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 14px;
+      box-shadow: 0 2px 10px rgba(0, 122, 255, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand-text { color: white; min-width: 0; }
+    .brand-title {
+      font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .brand-subtitle { font-size: 12px; color: var(--muted2); margin-top: 1px; }
+
+    .header-actions { display: flex; gap: 8px; flex-shrink: 0; align-items: center; }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.28); }
+    .btn-ghost:focus-visible { outline: 2px solid rgba(255,255,255,0.6); outline-offset: 2px; }
+
+    .lang-switch {
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px; padding: 3px; flex-shrink: 0;
+    }
+    .lang-btn {
+      font-family: inherit; font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.55); background: transparent; border: none;
+      border-radius: 100px; padding: 6px 10px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s;
+    }
+    .lang-btn:hover { color: #fff; }
+    .lang-btn.active { background: rgba(255,255,255,0.16); color: #fff; }
+    .lang-flag { font-size: 13px; line-height: 1; }
+
+    .hero {
+      background: linear-gradient(170deg, #0F1B2E 0%, #14243D 55%, #0F1B2E 100%);
+      padding: 40px 24px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0, 122, 255, 0.22) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      position: relative;
+      font-size: clamp(24px, 4vw, 32px);
+      font-weight: 800; letter-spacing: -0.03em;
+      margin-bottom: 16px; color: #fff; line-height: 1.2;
+    }
+    .hero p {
+      position: relative;
+      font-size: 14px; color: rgba(180,200,225,0.85);
+      max-width: 640px; margin: 0 auto; line-height: 1.65;
+    }
+
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 32px 24px 56px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      margin-bottom: var(--section-gap);
+    }
+
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; gap: 12px;
+    }
+    .card-title {
+      font-size: 15px; font-weight: 700; color: var(--ink);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-badge {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; padding: 4px 8px; border-radius: 100px;
+      background: var(--accent-light); color: var(--accent);
+    }
+
+    .section-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 14px;
+    }
+    .section-label-accent {
+      width: 3px; height: 12px; border-radius: 2px; background: var(--accent);
+    }
+
+    .input-group { margin-bottom: 14px; }
+    .input-group-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;
+    }
+    .input-group label {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 12px; font-weight: 500; color: var(--ink2); margin-bottom: 6px;
+    }
+
+    .info-tip {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--accent-light); color: var(--accent);
+      font-size: 10px; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: help; position: relative;
+      border: 1px solid rgba(27, 79, 114, 0.15);
+      flex-shrink: 0; transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .info-tip:hover, .info-tip:focus-visible, .info-tip.active {
+      background: var(--accent); color: white; transform: scale(1.05);
+    }
+    .info-tip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .info-tip::after {
+      content: attr(data-tip);
+      position: absolute; bottom: calc(100% + 10px); left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--ink); color: white; padding: 10px 14px;
+      border-radius: var(--radius-sm); font-size: 12px; font-weight: 400;
+      white-space: normal; width: min(260px, 70vw); z-index: 50;
+      line-height: 1.45; box-shadow: var(--shadow-md);
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    }
+    .info-tip::before {
+      content: '';
+      position: absolute; bottom: calc(100% + 2px); left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent; border-top-color: var(--ink);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s; z-index: 51;
+    }
+    @media (hover: hover) {
+      .info-tip:hover::after, .info-tip:hover::before {
+        opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+      }
+    }
+    .info-tip.active::after, .info-tip.active::before {
+      opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+    }
+
+    .input-wrapper { position: relative; }
+    .input-suffix {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font-size: 13px; pointer-events: none; font-weight: 500;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px; font-family: inherit; color: var(--ink);
+      background: white;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    input.with-suffix { padding-right: 72px; }
+    input[type="number"]:hover { border-color: rgba(27, 79, 114, 0.25); background: #FAFCFE; }
+    input[type="number"]:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(27, 79, 114, 0.12); background: white;
+    }
+    input[type="number"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+    .yesno-toggle {
+      display: flex; gap: 4px;
+      background: var(--card2);
+      border-radius: 8px; padding: 3px;
+      border: 0.5px solid var(--border);
+      max-width: 280px;
+    }
+    .yesno-btn {
+      flex: 1; border: none; background: transparent;
+      border-radius: 6px; padding: 10px 14px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      cursor: pointer; font-family: inherit; min-height: 44px;
+      transition: all 0.15s;
+    }
+    .yesno-btn.active {
+      background: var(--card); color: var(--accent);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .yesno-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .btn-run {
+      width: 100%;
+      margin-top: 8px;
+      padding: 14px 20px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      min-height: 48px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-run:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .btn-run:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .result-highlight {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      color: white;
+      padding: 28px 20px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      margin-bottom: var(--section-gap);
+      transition: transform 0.35s var(--ease-out);
+    }
+    .result-highlight.band-strong {
+      background: linear-gradient(135deg, var(--positive) 0%, #2A9D47 100%);
+    }
+    .result-highlight.band-adequate {
+      background: linear-gradient(135deg, var(--warning) 0%, #E68600 100%);
+    }
+    .result-highlight.band-risk {
+      background: linear-gradient(135deg, var(--alert) 0%, #D42E23 100%);
+    }
+    .result-highlight.pulse { animation: resultPulse 0.45s var(--ease-out); }
+    @keyframes resultPulse {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.015); }
+      100% { transform: scale(1); }
+    }
+    .result-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; opacity: 0.85; margin-bottom: 8px;
+    }
+    .result-value {
+      font-size: clamp(36px, 8vw, 48px);
+      font-weight: 800; letter-spacing: -0.03em;
+      margin-bottom: 6px; font-variant-numeric: tabular-nums;
+    }
+    .result-secondary {
+      font-size: 15px; opacity: 0.92; font-weight: 600;
+    }
+
+    .insight-callout {
+      border-radius: var(--radius-md);
+      padding: 18px 18px 18px 16px;
+      margin-bottom: var(--section-gap);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink2);
+      border-left: 3px solid var(--accent);
+      background: var(--accent-light);
+    }
+    .insight-callout.blind-spot {
+      border-left-color: var(--warning);
+      background: rgba(255, 149, 0, 0.1);
+    }
+    .insight-callout.neutral {
+      border-left-color: var(--positive);
+      background: rgba(52, 199, 89, 0.1);
+    }
+    .insight-callout-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: 8px;
+    }
+    .insight-callout.blind-spot .insight-callout-title { color: var(--warning); }
+    .insight-callout.neutral .insight-callout-title { color: #1F9D45; }
+
+    .breakdown-section {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      margin-bottom: var(--section-gap);
+    }
+    .insight-title {
+      font-size: 14px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--muted);
+      margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .sec-desc {
+      font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px;
+    }
+
+    .breakdown-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .breakdown-table {
+      width: 100%; border-collapse: collapse; font-size: 13px; min-width: 420px;
+    }
+    .breakdown-table th {
+      text-align: left; padding: 12px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted);
+      border-bottom: 2px solid var(--border);
+    }
+    .breakdown-table th.numeric { text-align: right; }
+    .breakdown-table td {
+      padding: 12px; border-bottom: 1px solid var(--border-light); color: var(--ink2);
+    }
+    .breakdown-table td.numeric {
+      text-align: right; font-variant-numeric: tabular-nums; font-weight: 500;
+    }
+    .breakdown-table tr.margin-row { background: var(--accent-light); font-weight: 700; }
+    .breakdown-table tr.margin-row td {
+      border-bottom: none; color: var(--accent-dark);
+    }
+
+    .methodology-cta {
+      position: relative;
+      background: linear-gradient(145deg, #0F1B2E 0%, #1A3355 50%, #0F1B2E 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      margin-bottom: var(--section-gap);
+      overflow: hidden;
+    }
+    .methodology-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 90% 10%, rgba(0,122,255,0.25), transparent 60%);
+      pointer-events: none;
+    }
+    .methodology-content { position: relative; }
+    .methodology-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: rgba(180,200,225,0.85); margin-bottom: 12px;
+    }
+    .methodology-title {
+      font-size: clamp(20px, 3vw, 24px);
+      font-weight: 800; letter-spacing: -0.02em;
+      margin-bottom: 14px; line-height: 1.25;
+    }
+    .methodology-text {
+      font-size: 14px; line-height: 1.65;
+      color: rgba(210,225,240,0.9); margin-bottom: 16px;
+    }
+    .contact-route {
+      margin: 16px 0 0;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 0.5px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 1px rgba(93, 173, 226, 0.12), 0 0 28px rgba(93, 173, 226, 0.22);
+      font-size: 15px; line-height: 1.7; font-weight: 500; letter-spacing: -0.01em;
+    }
+    .contact-route a {
+      color: #fff; font-weight: 600; text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+    }
+    .contact-route a:hover { border-bottom-color: #fff; }
+
+    .action-bar {
+      display: flex; gap: 8px; justify-content: center;
+      margin-top: 8px; flex-wrap: wrap;
+    }
+    .btn {
+      padding: 10px 16px; border-radius: var(--radius-sm);
+      font-size: 13px; font-weight: 500; cursor: pointer;
+      border: 1px solid var(--border); background: white; color: var(--ink);
+      transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+      font-family: inherit; min-height: 44px;
+    }
+    .btn:hover { background: var(--bg); border-color: var(--accent); transform: translateY(-1px); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
+    .framework-attribution {
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      background: var(--bg);
+      margin-top: 32px;
+    }
+    .attribution-content {
+      max-width: 880px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted);
+    }
+    .attribution-text strong { color: var(--ink2); font-weight: 600; }
+    .attribution-link { color: var(--accent); font-weight: 600; text-decoration: none; }
+    .attribution-link:hover { text-decoration: underline; }
+    .attribution-link:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+    }
+
+    footer {
+      max-width: 880px; margin: 24px auto 0;
+      padding: 24px; text-align: center;
+      font-size: 13px; color: var(--muted);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--ink); color: white;
+      padding: 10px 16px; border-radius: 100px;
+      font-size: 13px; font-weight: 500;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 300; box-shadow: var(--shadow-md);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (max-width: 640px) {
+      html, body { overflow-x: clip; }
+      .brand-title { font-size: 13px; }
+      .header-inner {
+        padding: 10px 12px;
+        padding-top: calc(10px + env(safe-area-inset-top));
+        gap: 8px;
+      }
+      .lang-btn { padding: 8px 9px; min-height: 36px; gap: 0; font-size: 0; }
+      .lang-flag { font-size: 15px; }
+      .header-actions { gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+      .btn-ghost { padding: 8px 10px; font-size: 12px; min-height: 36px; }
+      main {
+        padding: 24px max(12px, env(safe-area-inset-left)) calc(28px + env(safe-area-inset-bottom));
+        padding-right: max(12px, env(safe-area-inset-right));
+      }
+      .input-group-row { grid-template-columns: 1fr; }
+      input[type="number"] { font-size: 16px !important; min-height: 44px; }
+      .card { padding: 20px 16px; }
+      .breakdown-section { padding: 20px 16px; }
+      .methodology-cta { padding: 28px 18px; }
+      .yesno-toggle { max-width: none; }
+      .action-bar .btn { flex: 1 1 140px; justify-content: center; }
+    }
+
+    @media print {
+      header, .no-print, .toast { display: none !important; }
+      .hero { background: #111 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .result-highlight, .methodology-cta, .insight-callout {
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark">★</div>
+        <div class="brand-text">
+          <div class="brand-title" data-i18n="brandTitle">Guest Experience Score</div>
+          <div class="brand-subtitle" data-i18n="brandSubtitle">Operator Series</div>
+        </div>
+      </div>
+      <div class="header-actions no-print">
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" class="lang-btn active" data-lang="en" aria-pressed="true"><span class="lang-flag" aria-hidden="true">🇬🇧</span> EN</button>
+          <button type="button" class="lang-btn" data-lang="it" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇮🇹</span> IT</button>
+          <button type="button" class="lang-btn" data-lang="de" aria-pressed="false"><span class="lang-flag" aria-hidden="true">🇩🇪</span> DE</button>
+        </div>
+        <button class="btn-ghost" onclick="resetForm()" type="button" data-i18n="resetBtn">Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1 data-i18n="heroTitle">A good rating can hide a guest who almost complained.</h1>
+    <p data-i18n="heroSubtitle">Most operators only see satisfaction through public reviews. This tool looks at how attentively you're actually listening, not just what your rating says.</p>
+  </div>
+
+  <main>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span data-i18n="cardTitle">Listening signals</span>
+        </div>
+        <span class="card-badge" data-i18n="cardBadge">Five inputs</span>
+      </div>
+
+      <div class="section-label">
+        <span class="section-label-accent"></span>
+        <span data-i18n="secInputs">Your current signals</span>
+      </div>
+
+      <div class="input-group-row">
+        <div class="input-group">
+          <label for="rating">
+            <span data-i18n="lblRating">Average review rating</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="rating" value="4.6" min="0" max="5" step="0.1" class="with-suffix" inputmode="decimal">
+            <span class="input-suffix" data-i18n="suffixRating">/ 5</span>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="reviewResponseRate">
+            <span data-i18n="lblReviewResp">Review response rate</span>
+            <span class="info-tip" tabindex="0" data-i18n-tip="tipReviewResp" data-tip="% of guest reviews you actually reply to publicly.">i</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="reviewResponseRate" value="25" min="0" max="100" step="1" class="with-suffix" inputmode="numeric">
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group-row">
+        <div class="input-group">
+          <label for="responseTime">
+            <span data-i18n="lblMsgResp">Avg. message response time</span>
+            <span class="info-tip" tabindex="0" data-i18n-tip="tipMsgResp" data-tip="How long it typically takes to reply to a guest message during a stay.">i</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="responseTime" value="3" min="0" step="0.5" class="with-suffix" inputmode="decimal">
+            <span class="input-suffix" data-i18n="suffixHours">hours</span>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="issueRate">
+            <span data-i18n="lblIssueRate">Issue rate</span>
+            <span class="info-tip" tabindex="0" data-i18n-tip="tipIssueRate" data-tip="Share of stays with a reported problem needing intervention: maintenance, cleanliness, access, etc.">i</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="issueRate" value="8" min="0" max="100" step="1" class="with-suffix" inputmode="numeric">
+            <span class="input-suffix" data-i18n="suffixStays">% of stays</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label id="structuredLabel">
+          <span data-i18n="lblStructured">Do you collect structured feedback beyond public reviews?</span>
+          <span class="info-tip" tabindex="0" data-i18n-tip="tipStructured" data-tip="A post-stay survey, a direct check-in message asking how things are going, anything beyond waiting for a public review.">i</span>
+        </label>
+        <div class="yesno-toggle" role="group" aria-labelledby="structuredLabel">
+          <button type="button" class="yesno-btn" id="structuredYes" onclick="setStructured('yes')" data-i18n="btnYes">Yes</button>
+          <button type="button" class="yesno-btn active" id="structuredNo" onclick="setStructured('no')" data-i18n="btnNo">No</button>
+        </div>
+      </div>
+
+      <button type="button" class="btn-run no-print" onclick="runScore(true)" data-i18n="btnCalculate">Calculate score</button>
+    </div>
+
+    <div id="resultsPanel">
+      <div class="result-highlight band-adequate" id="resultHighlight">
+        <div class="result-label" data-i18n="resultLabel">Guest Experience Score</div>
+        <div class="result-value" id="scoreValue">—</div>
+        <div class="result-secondary" id="bandLabel">—</div>
+      </div>
+
+      <div class="insight-callout blind-spot" id="insightCallout">
+        <div class="insight-callout-title" id="insightTitle"></div>
+        <div id="insightText"></div>
+      </div>
+
+      <div class="breakdown-section">
+        <div class="insight-title">
+          <span style="color: var(--accent);">📊</span>
+          <span data-i18n="breakdownTitle">Score breakdown</span>
+        </div>
+        <p class="sec-desc" data-i18n="breakdownDesc">Each signal normalised to 0–100, then weighted into the composite score.</p>
+        <div class="breakdown-table-wrap">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th data-i18n="thSignal">Signal</th>
+                <th class="numeric" data-i18n="thInput">Your input</th>
+                <th class="numeric" data-i18n="thSubScore">Sub-score</th>
+                <th class="numeric" data-i18n="thWeight">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cost-row">
+                <td data-i18n="rowRating">Average review rating</td>
+                <td class="numeric" id="bd_rating_in">—</td>
+                <td class="numeric" id="bd_rating_score">—</td>
+                <td class="numeric">35%</td>
+              </tr>
+              <tr class="cost-row">
+                <td data-i18n="rowIssue">Issue rate</td>
+                <td class="numeric" id="bd_issue_in">—</td>
+                <td class="numeric" id="bd_issue_score">—</td>
+                <td class="numeric">25%</td>
+              </tr>
+              <tr class="cost-row">
+                <td data-i18n="rowReviewResp">Review response rate</td>
+                <td class="numeric" id="bd_review_in">—</td>
+                <td class="numeric" id="bd_review_score">—</td>
+                <td class="numeric">15%</td>
+              </tr>
+              <tr class="cost-row">
+                <td data-i18n="rowMsgResp">Message response time</td>
+                <td class="numeric" id="bd_msg_in">—</td>
+                <td class="numeric" id="bd_msg_score">—</td>
+                <td class="numeric">15%</td>
+              </tr>
+              <tr class="cost-row">
+                <td data-i18n="rowStructured">Structured feedback</td>
+                <td class="numeric" id="bd_struct_in">—</td>
+                <td class="numeric" id="bd_struct_score">—</td>
+                <td class="numeric">10%</td>
+              </tr>
+              <tr class="margin-row">
+                <td data-i18n="rowComposite">Composite score</td>
+                <td class="numeric">—</td>
+                <td class="numeric" id="bd_composite">—</td>
+                <td class="numeric">100%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="methodology-cta">
+      <div class="methodology-content">
+        <div class="methodology-label" data-i18n="methodLabel">What this means for your operation</div>
+        <p class="methodology-text" data-i18n="methodText">
+          Review scores measure what guests were willing to say publicly. They do not measure what almost went wrong, or what a guest decided was not worth mentioning. Response rate, response time, and structured feedback are the signals that catch problems before they become reviews, not after.
+        </p>
+        <p class="contact-route" data-i18n="methodContact" data-i18n-html>
+          Building that listening layer into how you operate is the work I do with operators. If you want to talk it through: <a href="mailto:rbisschoff@gmail.com?subject=Guest%20Experience%20Score" data-contact-tool="guest-experience-score">rbisschoff@gmail.com</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="action-bar no-print">
+      <button class="btn btn-primary" onclick="runScore(true)" type="button" data-i18n="actRecalculate">Recalculate</button>
+      <button class="btn" onclick="copySummary()" type="button" data-i18n="actCopySummary">Copy Summary</button>
+      <button class="btn" onclick="window.print()" type="button" data-i18n="actPrint">Print / PDF</button>
+    </div>
+  </main>
+
+  <div class="framework-attribution">
+    <div class="attribution-content">
+      <div class="attribution-text" data-i18n="attributionText" data-i18n-html>
+        <strong>Framework by Roger Bisschoff</strong> · First published 2026 · Part of the Operator Intelligence Suite
+      </div>
+      <a href="https://rbisschoff.github.io/operator-intelligence-suite/" class="attribution-link" data-i18n="attributionLink">View the full suite →</a>
+    </div>
+  </div>
+
+  <footer>
+    <p data-i18n="footerP1" data-i18n-html>Part of the <strong>Operator Series</strong> by <a href="https://linkedin.com/in/roger-bisschoff" target="_blank" rel="noopener noreferrer">Roger Bisschoff</a></p>
+    <p style="margin-top: 8px;" data-i18n="footerP2">A good rating is not the same as a guest who felt heard.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    let currentLang = 'en';
+    let structuredFeedback = 'no';
+    let lastResult = null;
+    let completionFired = false;
+
+    const DEFAULTS = {
+      rating: 4.6,
+      reviewResponseRate: 25,
+      responseTime: 3,
+      issueRate: 8,
+      structured: 'no'
+    };
+
+    const I18N = {
+      en: {
+        brandTitle: 'Guest Experience Score',
+        brandSubtitle: 'Operator Series',
+        resetBtn: 'Reset',
+        heroTitle: 'A good rating can hide a guest who almost complained.',
+        heroSubtitle: "Most operators only see satisfaction through public reviews. This tool looks at how attentively you're actually listening, not just what your rating says.",
+        cardTitle: 'Listening signals',
+        cardBadge: 'Five inputs',
+        secInputs: 'Your current signals',
+        lblRating: 'Average review rating',
+        suffixRating: '/ 5',
+        lblReviewResp: 'Review response rate',
+        tipReviewResp: '% of guest reviews you actually reply to publicly.',
+        lblMsgResp: 'Avg. message response time',
+        tipMsgResp: 'How long it typically takes to reply to a guest message during a stay.',
+        suffixHours: 'hours',
+        lblIssueRate: 'Issue rate',
+        tipIssueRate: 'Share of stays with a reported problem needing intervention: maintenance, cleanliness, access, etc.',
+        suffixStays: '% of stays',
+        lblStructured: 'Do you collect structured feedback beyond public reviews?',
+        tipStructured: 'A post-stay survey, a direct check-in message asking how things are going, anything beyond waiting for a public review.',
+        btnYes: 'Yes',
+        btnNo: 'No',
+        btnCalculate: 'Calculate score',
+        resultLabel: 'Guest Experience Score',
+        bandStrong: 'Strong',
+        bandAdequate: 'Adequate, with gaps',
+        bandRisk: 'At risk',
+        insightBlindTitle: 'Blind spot',
+        insightBlind: 'Your rating looks strong, but you are not collecting anything beyond it, and you reply to under a third of your reviews. A high score with low attentiveness is exactly the combination that hides a quietly dissatisfied guest who never said anything. The next negative review is often the first one you actually see coming.',
+        insightNeutralTitle: 'Visibility check',
+        insightNeutral: 'Your review response rate and feedback process give you more visibility into guest sentiment than the rating alone. That is what protects the score you already have.',
+        breakdownTitle: 'Score breakdown',
+        breakdownDesc: 'Each signal normalised to 0–100, then weighted into the composite score.',
+        thSignal: 'Signal',
+        thInput: 'Your input',
+        thSubScore: 'Sub-score',
+        thWeight: 'Weight',
+        rowRating: 'Average review rating',
+        rowIssue: 'Issue rate',
+        rowReviewResp: 'Review response rate',
+        rowMsgResp: 'Message response time',
+        rowStructured: 'Structured feedback',
+        rowComposite: 'Composite score',
+        methodLabel: 'What this means for your operation',
+        methodText: 'Review scores measure what guests were willing to say publicly. They do not measure what almost went wrong, or what a guest decided was not worth mentioning. Response rate, response time, and structured feedback are the signals that catch problems before they become reviews, not after.',
+        methodContact: 'Building that listening layer into how you operate is the work I do with operators. If you want to talk it through: <a href="mailto:rbisschoff@gmail.com?subject=Guest%20Experience%20Score" data-contact-tool="guest-experience-score">rbisschoff@gmail.com</a>',
+        actRecalculate: 'Recalculate',
+        actCopySummary: 'Copy Summary',
+        actPrint: 'Print / PDF',
+        attributionText: '<strong>Framework by Roger Bisschoff</strong> · First published 2026 · Part of the Operator Intelligence Suite',
+        attributionLink: 'View the full suite →',
+        footerP1: 'Part of the <strong>Operator Series</strong> by <a href="https://linkedin.com/in/roger-bisschoff" target="_blank" rel="noopener noreferrer">Roger Bisschoff</a>',
+        footerP2: 'A good rating is not the same as a guest who felt heard.',
+        toastCopied: 'Summary copied',
+        toastCopyFail: 'Copy failed — text shown below',
+        summaryTitle: 'Guest Experience Score — summary',
+        summaryScore: 'Score: {score} / 100 ({band})',
+        summaryInputs: 'Inputs',
+        summaryRating: 'Average review rating: {v} / 5',
+        summaryReviewResp: 'Review response rate: {v}%',
+        summaryMsgResp: 'Avg. message response time: {v} hours',
+        summaryIssue: 'Issue rate: {v}% of stays',
+        summaryStructured: 'Structured feedback beyond reviews: {v}',
+        summaryInsight: 'Insight',
+        summaryToolUrl: 'https://rbisschoff.github.io/guest-experience-score/',
+        summaryContact: 'Building that listening layer into how you operate is the work I do with operators. If you want to talk it through: rbisschoff@gmail.com'
+      },
+      it: {
+        brandTitle: 'Guest Experience Score',
+        brandSubtitle: 'Operator Series',
+        resetBtn: 'Reimposta',
+        heroTitle: 'Una buona valutazione può nascondere un ospite che stava per lamentarsi.',
+        heroSubtitle: 'La maggior parte degli operatori vede la soddisfazione solo attraverso le recensioni pubbliche. Questo strumento guarda a quanto stai davvero ascoltando, non solo a cosa dice il tuo rating.',
+        cardTitle: 'Segnali di ascolto',
+        cardBadge: 'Cinque input',
+        secInputs: 'I tuoi segnali attuali',
+        lblRating: 'Valutazione media delle recensioni',
+        suffixRating: '/ 5',
+        lblReviewResp: 'Tasso di risposta alle recensioni',
+        tipReviewResp: '% di recensioni degli ospiti a cui rispondi pubblicamente.',
+        lblMsgResp: 'Tempo medio di risposta ai messaggi',
+        tipMsgResp: 'Quanto tempo ci vuole in genere per rispondere a un messaggio dell’ospite durante il soggiorno.',
+        suffixHours: 'ore',
+        lblIssueRate: 'Tasso di problemi',
+        tipIssueRate: 'Quota di soggiorni con un problema segnalato che richiede intervento: manutenzione, pulizia, accesso, ecc.',
+        suffixStays: '% soggiorni',
+        lblStructured: 'Raccogli feedback strutturato oltre alle recensioni pubbliche?',
+        tipStructured: 'Un sondaggio post-soggiorno, un messaggio di check-in per chiedere come va, qualsiasi cosa oltre ad aspettare una recensione pubblica.',
+        btnYes: 'Sì',
+        btnNo: 'No',
+        btnCalculate: 'Calcola il punteggio',
+        resultLabel: 'Guest Experience Score',
+        bandStrong: 'Solido',
+        bandAdequate: 'Adeguato, con lacune',
+        bandRisk: 'A rischio',
+        insightBlindTitle: 'Punto cieco',
+        insightBlind: 'Il tuo rating sembra forte, ma non raccogli nulla oltre a quello e rispondi a meno di un terzo delle recensioni. Un punteggio alto con poca attenzione è esattamente la combinazione che nasconde un ospite silenziosamente insoddisfatto che non ha mai detto nulla. La prossima recensione negativa è spesso la prima che vedi davvero arrivare.',
+        insightNeutralTitle: 'Controllo di visibilità',
+        insightNeutral: 'Il tuo tasso di risposta alle recensioni e il processo di feedback ti danno più visibilità sul sentiment degli ospiti rispetto al solo rating. È ciò che protegge il punteggio che hai già.',
+        breakdownTitle: 'Dettaglio del punteggio',
+        breakdownDesc: 'Ogni segnale normalizzato da 0 a 100, poi ponderato nel punteggio composito.',
+        thSignal: 'Segnale',
+        thInput: 'Il tuo input',
+        thSubScore: 'Sub-punteggio',
+        thWeight: 'Peso',
+        rowRating: 'Valutazione media delle recensioni',
+        rowIssue: 'Tasso di problemi',
+        rowReviewResp: 'Tasso di risposta alle recensioni',
+        rowMsgResp: 'Tempo di risposta ai messaggi',
+        rowStructured: 'Feedback strutturato',
+        rowComposite: 'Punteggio composito',
+        methodLabel: 'Cosa significa per la tua operazione',
+        methodText: 'I punteggi delle recensioni misurano ciò che gli ospiti erano disposti a dire pubblicamente. Non misurano ciò che è quasi andato storto, o ciò che un ospite ha deciso non valesse la pena menzionare. Tasso di risposta, tempo di risposta e feedback strutturato sono i segnali che intercettano i problemi prima che diventino recensioni, non dopo.',
+        methodContact: 'Costruire quel livello di ascolto nel modo in cui operi è il lavoro che faccio con gli operatori. Se vuoi parlarne: <a href="mailto:rbisschoff@gmail.com?subject=Guest%20Experience%20Score" data-contact-tool="guest-experience-score">rbisschoff@gmail.com</a>',
+        actRecalculate: 'Ricalcola',
+        actCopySummary: 'Copia riepilogo',
+        actPrint: 'Stampa / PDF',
+        attributionText: '<strong>Framework di Roger Bisschoff</strong> · Prima pubblicazione 2026 · Parte dell’Operator Intelligence Suite',
+        attributionLink: 'Vedi la suite completa →',
+        footerP1: 'Parte dell’<strong>Operator Series</strong> di <a href="https://linkedin.com/in/roger-bisschoff" target="_blank" rel="noopener noreferrer">Roger Bisschoff</a>',
+        footerP2: 'Una buona valutazione non è la stessa cosa di un ospite che si è sentito ascoltato.',
+        toastCopied: 'Riepilogo copiato',
+        toastCopyFail: 'Copia non riuscita — testo qui sotto',
+        summaryTitle: 'Guest Experience Score — riepilogo',
+        summaryScore: 'Punteggio: {score} / 100 ({band})',
+        summaryInputs: 'Input',
+        summaryRating: 'Valutazione media: {v} / 5',
+        summaryReviewResp: 'Tasso di risposta alle recensioni: {v}%',
+        summaryMsgResp: 'Tempo medio di risposta ai messaggi: {v} ore',
+        summaryIssue: 'Tasso di problemi: {v}% dei soggiorni',
+        summaryStructured: 'Feedback strutturato oltre alle recensioni: {v}',
+        summaryInsight: 'Insight',
+        summaryToolUrl: 'https://rbisschoff.github.io/guest-experience-score/',
+        summaryContact: 'Costruire quel livello di ascolto nel modo in cui operi è il lavoro che faccio con gli operatori. Se vuoi parlarne: rbisschoff@gmail.com'
+      },
+      de: {
+        brandTitle: 'Guest Experience Score',
+        brandSubtitle: 'Operator Series',
+        resetBtn: 'Zurücksetzen',
+        heroTitle: 'Eine gute Bewertung kann einen Gast verbergen, der sich beinahe beschwert hätte.',
+        heroSubtitle: 'Die meisten Betreiber sehen Zufriedenheit nur über öffentliche Bewertungen. Dieses Tool betrachtet, wie aufmerksam Sie wirklich zuhören — nicht nur, was Ihre Bewertung sagt.',
+        cardTitle: 'Zuhör-Signale',
+        cardBadge: 'Fünf Eingaben',
+        secInputs: 'Ihre aktuellen Signale',
+        lblRating: 'Durchschnittliche Bewertungsnote',
+        suffixRating: '/ 5',
+        lblReviewResp: 'Antwortquote auf Bewertungen',
+        tipReviewResp: '% der Gästebewertungen, auf die Sie öffentlich antworten.',
+        lblMsgResp: 'Durchschn. Antwortzeit auf Nachrichten',
+        tipMsgResp: 'Wie lange es typischerweise dauert, während eines Aufenthalts auf eine Gastnachricht zu antworten.',
+        suffixHours: 'Stunden',
+        lblIssueRate: 'Problemquote',
+        tipIssueRate: 'Anteil der Aufenthalte mit einem gemeldeten Problem, das Eingreifen erfordert: Wartung, Sauberkeit, Zugang usw.',
+        suffixStays: '% der Aufenthalte',
+        lblStructured: 'Erheben Sie strukturiertes Feedback über öffentliche Bewertungen hinaus?',
+        tipStructured: 'Eine Nachaufenthalt-Umfrage, eine Check-in-Nachricht mit der Frage, wie es läuft — alles jenseits des Wartens auf eine öffentliche Bewertung.',
+        btnYes: 'Ja',
+        btnNo: 'Nein',
+        btnCalculate: 'Score berechnen',
+        resultLabel: 'Guest Experience Score',
+        bandStrong: 'Stark',
+        bandAdequate: 'Ausreichend, mit Lücken',
+        bandRisk: 'Gefährdet',
+        insightBlindTitle: 'Blinder Fleck',
+        insightBlind: 'Ihre Bewertung wirkt stark, aber Sie erheben nichts darüber hinaus und antworten auf weniger als ein Drittel Ihrer Reviews. Ein hoher Score bei geringer Aufmerksamkeit ist genau die Kombination, die einen still unzufriedenen Gast verbirgt, der nie etwas gesagt hat. Die nächste negative Bewertung ist oft die erste, die Sie wirklich kommen sehen.',
+        insightNeutralTitle: 'Sichtbarkeitscheck',
+        insightNeutral: 'Ihre Antwortquote auf Bewertungen und Ihr Feedback-Prozess geben Ihnen mehr Sicht auf die Gästestimmung als die Bewertung allein. Das schützt den Score, den Sie bereits haben.',
+        breakdownTitle: 'Score-Aufschlüsselung',
+        breakdownDesc: 'Jedes Signal auf 0–100 normalisiert, dann gewichtet in den Composite-Score.',
+        thSignal: 'Signal',
+        thInput: 'Ihre Eingabe',
+        thSubScore: 'Teilscore',
+        thWeight: 'Gewicht',
+        rowRating: 'Durchschnittliche Bewertungsnote',
+        rowIssue: 'Problemquote',
+        rowReviewResp: 'Antwortquote auf Bewertungen',
+        rowMsgResp: 'Antwortzeit auf Nachrichten',
+        rowStructured: 'Strukturiertes Feedback',
+        rowComposite: 'Composite-Score',
+        methodLabel: 'Was das für Ihren Betrieb bedeutet',
+        methodText: 'Bewertungsscores messen, was Gäste öffentlich zu sagen bereit waren. Sie messen nicht, was beinahe schiefging, oder was ein Gast für nicht erwähnenswert hielt. Antwortquote, Antwortzeit und strukturiertes Feedback sind die Signale, die Probleme auffangen, bevor sie zu Bewertungen werden — nicht danach.',
+        methodContact: 'Diese Zuhör-Ebene in Ihre Betriebsweise einzubauen, ist die Arbeit, die ich mit Operatoren mache. Wenn Sie darüber sprechen möchten: <a href="mailto:rbisschoff@gmail.com?subject=Guest%20Experience%20Score" data-contact-tool="guest-experience-score">rbisschoff@gmail.com</a>',
+        actRecalculate: 'Neu berechnen',
+        actCopySummary: 'Zusammenfassung kopieren',
+        actPrint: 'Drucken / PDF',
+        attributionText: '<strong>Framework von Roger Bisschoff</strong> · Erstveröffentlichung 2026 · Teil der Operator Intelligence Suite',
+        attributionLink: 'Zur vollständigen Suite →',
+        footerP1: 'Teil der <strong>Operator Series</strong> von <a href="https://linkedin.com/in/roger-bisschoff" target="_blank" rel="noopener noreferrer">Roger Bisschoff</a>',
+        footerP2: 'Eine gute Bewertung ist nicht dasselbe wie ein Gast, der sich gehört fühlte.',
+        toastCopied: 'Zusammenfassung kopiert',
+        toastCopyFail: 'Kopieren fehlgeschlagen — Text unten',
+        summaryTitle: 'Guest Experience Score — Zusammenfassung',
+        summaryScore: 'Score: {score} / 100 ({band})',
+        summaryInputs: 'Eingaben',
+        summaryRating: 'Durchschnittliche Bewertungsnote: {v} / 5',
+        summaryReviewResp: 'Antwortquote auf Bewertungen: {v}%',
+        summaryMsgResp: 'Durchschn. Antwortzeit auf Nachrichten: {v} Stunden',
+        summaryIssue: 'Problemquote: {v}% der Aufenthalte',
+        summaryStructured: 'Strukturiertes Feedback jenseits von Reviews: {v}',
+        summaryInsight: 'Insight',
+        summaryToolUrl: 'https://rbisschoff.github.io/guest-experience-score/',
+        summaryContact: 'Diese Zuhör-Ebene in Ihre Betriebsweise einzubauen, ist die Arbeit, die ich mit Operatoren mache. Wenn Sie darüber sprechen möchten: rbisschoff@gmail.com'
+      }
+    };
+
+    function t(key) {
+      const pack = I18N[currentLang] || I18N.en;
+      if (pack[key] !== undefined) return pack[key];
+      return I18N.en[key] !== undefined ? I18N.en[key] : key;
+    }
+
+    function tf(key, vars) {
+      let s = t(key);
+      Object.keys(vars || {}).forEach(function (k) {
+        s = s.replace(new RegExp('\\{' + k + '\\}', 'g'), vars[k]);
+      });
+      return s;
+    }
+
+    function clamp(n, min, max) {
+      return Math.min(max, Math.max(min, n));
+    }
+
+    function setStructured(value) {
+      structuredFeedback = value === 'yes' ? 'yes' : 'no';
+      document.getElementById('structuredYes').classList.toggle('active', structuredFeedback === 'yes');
+      document.getElementById('structuredNo').classList.toggle('active', structuredFeedback === 'no');
+    }
+
+    function getInputs() {
+      const rating = clamp(parseFloat(document.getElementById('rating').value) || 0, 0, 5);
+      const reviewResponseRate = clamp(parseFloat(document.getElementById('reviewResponseRate').value) || 0, 0, 100);
+      const responseTime = Math.max(0, parseFloat(document.getElementById('responseTime').value) || 0);
+      const issueRate = clamp(parseFloat(document.getElementById('issueRate').value) || 0, 0, 100);
+      return {
+        rating: rating,
+        reviewResponseRate: reviewResponseRate,
+        responseTime: responseTime,
+        issueRate: issueRate,
+        structuredFeedback: structuredFeedback
+      };
+    }
+
+    function computeScore(i) {
+      const ratingScore = (i.rating / 5) * 100;
+      const issueScore = Math.max(0, 100 - i.issueRate * 2);
+      const reviewRespScore = i.reviewResponseRate;
+      const msgRespScore = Math.max(0, 100 - i.responseTime * 4);
+      const structuredScore = i.structuredFeedback === 'yes' ? 100 : 0;
+
+      const compositeRaw =
+        ratingScore * 0.35 +
+        issueScore * 0.25 +
+        reviewRespScore * 0.15 +
+        msgRespScore * 0.15 +
+        structuredScore * 0.10;
+
+      const compositeScore = Math.round(compositeRaw);
+
+      let bandKey = 'bandRisk';
+      let bandClass = 'band-risk';
+      if (compositeScore >= 80) {
+        bandKey = 'bandStrong';
+        bandClass = 'band-strong';
+      } else if (compositeScore >= 60) {
+        bandKey = 'bandAdequate';
+        bandClass = 'band-adequate';
+      }
+
+      const blindSpot = ratingScore > 85 && i.reviewResponseRate < 30 && i.structuredFeedback === 'no';
+
+      return {
+        inputs: i,
+        ratingScore: ratingScore,
+        issueScore: issueScore,
+        reviewRespScore: reviewRespScore,
+        msgRespScore: msgRespScore,
+        structuredScore: structuredScore,
+        compositeScore: compositeScore,
+        bandKey: bandKey,
+        bandClass: bandClass,
+        blindSpot: blindSpot
+      };
+    }
+
+    function formatNum(n, digits) {
+      const d = digits === undefined ? 0 : digits;
+      return Number(n).toLocaleString(currentLang === 'de' ? 'de-DE' : currentLang === 'it' ? 'it-IT' : 'en-GB', {
+        minimumFractionDigits: d,
+        maximumFractionDigits: d
+      });
+    }
+
+    function renderResult(result, pulse) {
+      lastResult = result;
+      const el = document.getElementById('resultHighlight');
+      el.className = 'result-highlight ' + result.bandClass;
+      if (pulse) {
+        el.classList.remove('pulse');
+        void el.offsetWidth;
+        el.classList.add('pulse');
+      }
+      document.getElementById('scoreValue').textContent = String(result.compositeScore);
+      document.getElementById('bandLabel').textContent = t(result.bandKey);
+
+      const callout = document.getElementById('insightCallout');
+      callout.className = 'insight-callout ' + (result.blindSpot ? 'blind-spot' : 'neutral');
+      document.getElementById('insightTitle').textContent = t(result.blindSpot ? 'insightBlindTitle' : 'insightNeutralTitle');
+      document.getElementById('insightText').textContent = t(result.blindSpot ? 'insightBlind' : 'insightNeutral');
+
+      const i = result.inputs;
+      document.getElementById('bd_rating_in').textContent = formatNum(i.rating, 1) + ' / 5';
+      document.getElementById('bd_rating_score').textContent = formatNum(result.ratingScore, 0);
+      document.getElementById('bd_issue_in').textContent = formatNum(i.issueRate, 0) + '%';
+      document.getElementById('bd_issue_score').textContent = formatNum(result.issueScore, 0);
+      document.getElementById('bd_review_in').textContent = formatNum(i.reviewResponseRate, 0) + '%';
+      document.getElementById('bd_review_score').textContent = formatNum(result.reviewRespScore, 0);
+      document.getElementById('bd_msg_in').textContent = formatNum(i.responseTime, 1) + ' ' + t('suffixHours');
+      document.getElementById('bd_msg_score').textContent = formatNum(result.msgRespScore, 0);
+      document.getElementById('bd_struct_in').textContent = i.structuredFeedback === 'yes' ? t('btnYes') : t('btnNo');
+      document.getElementById('bd_struct_score').textContent = formatNum(result.structuredScore, 0);
+      document.getElementById('bd_composite').textContent = formatNum(result.compositeScore, 0);
+    }
+
+    function runScore(userTriggered) {
+      const inputs = getInputs();
+      const result = computeScore(inputs);
+      renderResult(result, !!userTriggered);
+
+      if (userTriggered && !completionFired && typeof gtag === 'function') {
+        gtag('event', 'guest_experience_score_completed', {
+          score: result.compositeScore,
+          band: result.bandKey,
+          blind_spot: result.blindSpot
+        });
+        completionFired = true;
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('rating').value = DEFAULTS.rating;
+      document.getElementById('reviewResponseRate').value = DEFAULTS.reviewResponseRate;
+      document.getElementById('responseTime').value = DEFAULTS.responseTime;
+      document.getElementById('issueRate').value = DEFAULTS.issueRate;
+      setStructured(DEFAULTS.structured);
+      runScore(false);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(function () { toast.classList.remove('show'); }, 2200);
+    }
+
+    function buildSummaryText() {
+      if (!lastResult) return '';
+      const i = lastResult.inputs;
+      const insight = lastResult.blindSpot ? t('insightBlind') : t('insightNeutral');
+      return [
+        t('summaryTitle'),
+        '',
+        tf('summaryScore', { score: lastResult.compositeScore, band: t(lastResult.bandKey) }),
+        '',
+        t('summaryInputs'),
+        tf('summaryRating', { v: formatNum(i.rating, 1) }),
+        tf('summaryReviewResp', { v: formatNum(i.reviewResponseRate, 0) }),
+        tf('summaryMsgResp', { v: formatNum(i.responseTime, 1) }),
+        tf('summaryIssue', { v: formatNum(i.issueRate, 0) }),
+        tf('summaryStructured', { v: i.structuredFeedback === 'yes' ? t('btnYes') : t('btnNo') }),
+        '',
+        t('summaryInsight'),
+        insight,
+        '',
+        t('summaryToolUrl'),
+        t('summaryContact')
+      ].join('\n');
+    }
+
+    function copySummary() {
+      if (!lastResult) runScore(false);
+      const text = buildSummaryText();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          showToast(t('toastCopied'));
+        }).catch(function () {
+          window.prompt(t('toastCopyFail'), text);
+        });
+      } else {
+        window.prompt(t('toastCopyFail'), text);
+      }
+    }
+
+    function applyLang(lang) {
+      currentLang = I18N[lang] ? lang : 'en';
+      document.documentElement.lang = currentLang;
+      if (window.updateOisMetadata) window.updateOisMetadata(currentLang);
+
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        const key = el.getAttribute('data-i18n');
+        const val = t(key);
+        if (el.hasAttribute('data-i18n-html') || val.indexOf('<') !== -1) el.innerHTML = val;
+        else el.textContent = val;
+      });
+
+      document.querySelectorAll('[data-i18n-tip]').forEach(function (el) {
+        const key = el.getAttribute('data-i18n-tip');
+        el.setAttribute('data-tip', t(key));
+      });
+
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        const on = btn.getAttribute('data-lang') === currentLang;
+        btn.classList.toggle('active', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+
+      try { localStorage.setItem('ois-lang', currentLang); } catch (e) {}
+      if (lastResult) renderResult(computeScore(getInputs()), false);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyLang(btn.getAttribute('data-lang'));
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      const tip = e.target.closest('.info-tip');
+      document.querySelectorAll('.info-tip.active').forEach(function (el) {
+        if (el !== tip) el.classList.remove('active');
+      });
+      if (tip) tip.classList.toggle('active');
+
+      const a = e.target.closest('a[data-contact-tool]');
+      if (a && typeof gtag === 'function') {
+        gtag('event', 'contact_click', { tool: a.getAttribute('data-contact-tool') });
+      }
+    });
+
+    applyLang(window.__oisInitialLang || 'en');
+    setStructured(DEFAULTS.structured);
+    runScore(false);
+  </script>
+</body>
+</html>
