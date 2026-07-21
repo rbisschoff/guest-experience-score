@@ -298,6 +298,10 @@
     }
 
     .input-wrapper { position: relative; }
+    .input-prefix {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); font-size: 13px; pointer-events: none; font-weight: 500;
+    }
     .input-suffix {
       position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
       color: var(--muted); font-size: 13px; pointer-events: none; font-weight: 500;
@@ -313,6 +317,7 @@
       transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
     input.with-suffix { padding-right: 72px; }
+    .input-wrapper:has(.input-prefix) input[type="number"] { padding-left: 28px; }
     input[type="number"]:hover { border-color: rgba(27, 79, 114, 0.25); background: #FAFCFE; }
     input[type="number"]:focus {
       outline: none; border-color: var(--accent);
@@ -413,12 +418,17 @@
       border-left-color: var(--positive);
       background: rgba(52, 199, 89, 0.1);
     }
+    .insight-callout.priority-action {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+    }
     .insight-callout-title {
       font-size: 11px; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.06em; margin-bottom: 8px;
     }
     .insight-callout.blind-spot .insight-callout-title { color: var(--warning); }
     .insight-callout.neutral .insight-callout-title { color: #1F9D45; }
+    .insight-callout.priority-action .insight-callout-title { color: var(--accent); }
 
     .breakdown-section {
       background: white;
@@ -677,6 +687,19 @@
         </div>
       </div>
 
+      <div class="input-group-row">
+        <div class="input-group">
+          <label for="monthlyRevenue">
+            <span data-i18n="lblMonthlyRevenue">Monthly revenue for this property</span>
+            <span class="info-tip" tabindex="0" data-i18n-tip="tipMonthlyRevenue" data-tip="Used only to estimate the revenue effect of closing your rating gap. Optional, leave at 0 to skip that estimate.">i</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-prefix">€</span>
+            <input type="number" id="monthlyRevenue" value="0" min="0" step="100" inputmode="numeric">
+          </div>
+        </div>
+      </div>
+
       <div class="input-group">
         <label id="structuredLabel">
           <span data-i18n="lblStructured">Do you collect structured feedback beyond public reviews?</span>
@@ -701,6 +724,11 @@
       <div class="insight-callout blind-spot" id="insightCallout">
         <div class="insight-callout-title" id="insightTitle"></div>
         <div id="insightText"></div>
+      </div>
+
+      <div class="insight-callout priority-action" id="priorityCallout" style="display:none;">
+        <div class="insight-callout-title" id="priorityTitle"></div>
+        <div id="priorityText"></div>
       </div>
 
       <div class="breakdown-section">
@@ -808,6 +836,7 @@
       reviewResponseRate: 25,
       responseTime: 3,
       issueRate: 8,
+      monthlyRevenue: 0,
       structured: 'no'
     };
 
@@ -831,6 +860,8 @@
         lblIssueRate: 'Issue rate',
         tipIssueRate: 'Share of stays with a reported problem needing intervention: maintenance, cleanliness, access, etc.',
         suffixStays: '% of stays',
+        lblMonthlyRevenue: 'Monthly revenue for this property',
+        tipMonthlyRevenue: 'Used only to estimate the revenue effect of closing your rating gap. Optional, leave at 0 to skip that estimate.',
         lblStructured: 'Do you collect structured feedback beyond public reviews?',
         tipStructured: 'A post-stay survey, a direct check-in message asking how things are going, anything beyond waiting for a public review.',
         btnYes: 'Yes',
@@ -844,6 +875,13 @@
         insightBlind: 'Your rating looks strong, but you are not collecting anything beyond it, and you reply to under a third of your reviews. A high score with low attentiveness is exactly the combination that hides a quietly dissatisfied guest who never said anything. The next negative review is often the first one you actually see coming.',
         insightNeutralTitle: 'Visibility check',
         insightNeutral: 'Your review response rate and feedback process give you more visibility into guest sentiment than the rating alone. That is what protects the score you already have.',
+        priorityTitleTpl: 'Your biggest opportunity: {signal}',
+        actionRating: 'Ask happy guests directly at checkout for a review. Most rating gaps come from satisfied guests who simply never leave one.',
+        actionIssue: 'Track issues by category for one month. Most operators find two or three recurring causes, often something like wifi or check-in access, that are cheap to fix once identified but invisible until tracked.',
+        actionReviewResp: 'Reply to every review, good or bad, within 48 hours. This alone often moves response rate from under 30% to over 80% with no other change.',
+        actionMsgResp: 'Turn on mobile push notifications for guest messages, or send an automatic acknowledgement within minutes while you prepare a full reply.',
+        actionStructured: 'Send one message the morning after check-in asking how everything is going so far. That single question, at zero cost, is the structured feedback layer.',
+        revenueEstimateTpl: 'As a rough rule of thumb (not a precise figure), closing this gap is associated with roughly {pct}% more bookings, which on your numbers would be about {amount} a month.',
         breakdownTitle: 'Score breakdown',
         breakdownDesc: 'Each signal normalised to 0–100, then weighted into the composite score.',
         thSignal: 'Signal',
@@ -899,6 +937,8 @@
         lblIssueRate: 'Tasso di problemi',
         tipIssueRate: 'Quota di soggiorni con un problema segnalato che richiede intervento: manutenzione, pulizia, accesso, ecc.',
         suffixStays: '% soggiorni',
+        lblMonthlyRevenue: 'Ricavo mensile per questa proprietà',
+        tipMonthlyRevenue: 'Usato solo per stimare l\'effetto sui ricavi di colmare il divario nel rating. Facoltativo, lascia a 0 per saltare questa stima.',
         lblStructured: 'Raccogli feedback strutturato oltre alle recensioni pubbliche?',
         tipStructured: 'Un sondaggio post-soggiorno, un messaggio di check-in per chiedere come va, qualsiasi cosa oltre ad aspettare una recensione pubblica.',
         btnYes: 'Sì',
@@ -912,6 +952,13 @@
         insightBlind: 'Il tuo rating sembra forte, ma non raccogli nulla oltre a quello e rispondi a meno di un terzo delle recensioni. Un punteggio alto con poca attenzione è esattamente la combinazione che nasconde un ospite silenziosamente insoddisfatto che non ha mai detto nulla. La prossima recensione negativa è spesso la prima che vedi davvero arrivare.',
         insightNeutralTitle: 'Controllo di visibilità',
         insightNeutral: 'Il tuo tasso di risposta alle recensioni e il processo di feedback ti danno più visibilità sul sentiment degli ospiti rispetto al solo rating. È ciò che protegge il punteggio che hai già.',
+        priorityTitleTpl: 'La tua opportunità più grande: {signal}',
+        actionRating: 'Chiedi direttamente agli ospiti soddisfatti una recensione al checkout. La maggior parte dei divari nel rating viene da ospiti soddisfatti che semplicemente non ne lasciano una.',
+        actionIssue: 'Traccia i problemi per categoria per un mese. La maggior parte degli operatori trova due o tre cause ricorrenti, spesso qualcosa come il wifi o l\'accesso al check-in, economiche da risolvere una volta identificate ma invisibili finché non vengono tracciate.',
+        actionReviewResp: 'Rispondi a ogni recensione, buona o cattiva, entro 48 ore. Solo questo spesso porta il tasso di risposta da sotto il 30% a oltre l\'80%, senza altri cambiamenti.',
+        actionMsgResp: 'Attiva le notifiche push mobili per i messaggi degli ospiti, oppure invia un riconoscimento automatico entro pochi minuti mentre prepari la risposta completa.',
+        actionStructured: 'Invia un messaggio la mattina dopo il check-in chiedendo come sta andando tutto. Quella sola domanda, a costo zero, è il livello di feedback strutturato.',
+        revenueEstimateTpl: 'Come regola empirica (non una cifra precisa), colmare questo divario è associato a circa il {pct}% di prenotazioni in più, che sui tuoi numeri sarebbero circa {amount} al mese.',
         breakdownTitle: 'Dettaglio del punteggio',
         breakdownDesc: 'Ogni segnale normalizzato da 0 a 100, poi ponderato nel punteggio composito.',
         thSignal: 'Segnale',
@@ -967,6 +1014,8 @@
         lblIssueRate: 'Problemquote',
         tipIssueRate: 'Anteil der Aufenthalte mit einem gemeldeten Problem, das Eingreifen erfordert: Wartung, Sauberkeit, Zugang usw.',
         suffixStays: '% der Aufenthalte',
+        lblMonthlyRevenue: 'Monatsumsatz für dieses Objekt',
+        tipMonthlyRevenue: 'Wird nur verwendet, um die Umsatzwirkung des Schließens Ihrer Bewertungslücke zu schätzen. Optional, lassen Sie 0 stehen, um diese Schätzung zu überspringen.',
         lblStructured: 'Erheben Sie strukturiertes Feedback über öffentliche Bewertungen hinaus?',
         tipStructured: 'Eine Nachaufenthalt-Umfrage, eine Check-in-Nachricht mit der Frage, wie es läuft — alles jenseits des Wartens auf eine öffentliche Bewertung.',
         btnYes: 'Ja',
@@ -980,6 +1029,13 @@
         insightBlind: 'Ihre Bewertung wirkt stark, aber Sie erheben nichts darüber hinaus und antworten auf weniger als ein Drittel Ihrer Reviews. Ein hoher Score bei geringer Aufmerksamkeit ist genau die Kombination, die einen still unzufriedenen Gast verbirgt, der nie etwas gesagt hat. Die nächste negative Bewertung ist oft die erste, die Sie wirklich kommen sehen.',
         insightNeutralTitle: 'Sichtbarkeitscheck',
         insightNeutral: 'Ihre Antwortquote auf Bewertungen und Ihr Feedback-Prozess geben Ihnen mehr Sicht auf die Gästestimmung als die Bewertung allein. Das schützt den Score, den Sie bereits haben.',
+        priorityTitleTpl: 'Ihre größte Chance: {signal}',
+        actionRating: 'Bitten Sie zufriedene Gäste direkt beim Checkout um eine Bewertung. Die meisten Bewertungslücken entstehen durch zufriedene Gäste, die einfach keine hinterlassen.',
+        actionIssue: 'Erfassen Sie Probleme einen Monat lang nach Kategorie. Die meisten Betreiber finden zwei oder drei wiederkehrende Ursachen — oft WLAN oder Check-in-Zugang —, die günstig zu beheben sind, sobald sie erkannt, aber unsichtbar bleiben, bis sie erfasst werden.',
+        actionReviewResp: 'Antworten Sie auf jede Bewertung, gut oder schlecht, innerhalb von 48 Stunden. Allein das hebt die Antwortquote oft von unter 30% auf über 80%, ohne weitere Änderung.',
+        actionMsgResp: 'Schalten Sie Push-Benachrichtigungen für Gastnachrichten ein, oder senden Sie innerhalb von Minuten eine automatische Bestätigung, während Sie die vollständige Antwort vorbereiten.',
+        actionStructured: 'Senden Sie am Morgen nach dem Check-in eine Nachricht und fragen Sie, wie bisher alles läuft. Diese eine Frage, ohne Kosten, ist die strukturierte Feedback-Ebene.',
+        revenueEstimateTpl: 'Als grobe Faustregel (keine präzise Zahl) hängt das Schließen dieser Lücke mit etwa {pct}% mehr Buchungen zusammen — auf Ihren Zahlen etwa {amount} im Monat.',
         breakdownTitle: 'Score-Aufschlüsselung',
         breakdownDesc: 'Jedes Signal auf 0–100 normalisiert, dann gewichtet in den Composite-Score.',
         thSignal: 'Signal',
@@ -1047,14 +1103,25 @@
       const reviewResponseRate = clamp(parseFloat(document.getElementById('reviewResponseRate').value) || 0, 0, 100);
       const responseTime = Math.max(0, parseFloat(document.getElementById('responseTime').value) || 0);
       const issueRate = clamp(parseFloat(document.getElementById('issueRate').value) || 0, 0, 100);
+      const monthlyRevenue = Math.max(0, parseFloat(document.getElementById('monthlyRevenue').value) || 0);
       return {
         rating: rating,
         reviewResponseRate: reviewResponseRate,
         responseTime: responseTime,
         issueRate: issueRate,
+        monthlyRevenue: monthlyRevenue,
         structuredFeedback: structuredFeedback
       };
     }
+
+    const BENCHMARK = {
+      ratingScore: (4.8 / 5) * 100,
+      issueScore: Math.max(0, 100 - 3 * 2),
+      reviewRespScore: 90,
+      msgRespScore: Math.max(0, 100 - 1 * 4),
+      structuredScore: 100
+    };
+    const WEIGHT = { rating: 0.35, issue: 0.25, reviewResp: 0.15, msgResp: 0.15, structured: 0.10 };
 
     function computeScore(i) {
       const ratingScore = (i.rating / 5) * 100;
@@ -1064,11 +1131,11 @@
       const structuredScore = i.structuredFeedback === 'yes' ? 100 : 0;
 
       const compositeRaw =
-        ratingScore * 0.35 +
-        issueScore * 0.25 +
-        reviewRespScore * 0.15 +
-        msgRespScore * 0.15 +
-        structuredScore * 0.10;
+        ratingScore * WEIGHT.rating +
+        issueScore * WEIGHT.issue +
+        reviewRespScore * WEIGHT.reviewResp +
+        msgRespScore * WEIGHT.msgResp +
+        structuredScore * WEIGHT.structured;
 
       const compositeScore = Math.round(compositeRaw);
 
@@ -1084,6 +1151,21 @@
 
       const blindSpot = ratingScore > 85 && i.reviewResponseRate < 30 && i.structuredFeedback === 'no';
 
+      const candidates = [
+        { key: 'rating', rowKey: 'rowRating', actionKey: 'actionRating', priority: WEIGHT.rating * Math.max(0, BENCHMARK.ratingScore - ratingScore) },
+        { key: 'issue', rowKey: 'rowIssue', actionKey: 'actionIssue', priority: WEIGHT.issue * Math.max(0, BENCHMARK.issueScore - issueScore) },
+        { key: 'reviewResp', rowKey: 'rowReviewResp', actionKey: 'actionReviewResp', priority: WEIGHT.reviewResp * Math.max(0, BENCHMARK.reviewRespScore - reviewRespScore) },
+        { key: 'msgResp', rowKey: 'rowMsgResp', actionKey: 'actionMsgResp', priority: WEIGHT.msgResp * Math.max(0, BENCHMARK.msgRespScore - msgRespScore) },
+        { key: 'structured', rowKey: 'rowStructured', actionKey: 'actionStructured', priority: WEIGHT.structured * Math.max(0, BENCHMARK.structuredScore - structuredScore) }
+      ];
+      const topPriority = candidates.reduce(function (a, b) { return b.priority > a.priority ? b : a; });
+      const hasRealGap = topPriority.priority > 0.5;
+
+      const ratingGapPoints = Math.max(0, 4.8 - i.rating);
+      const estimatedUpliftPct = ratingGapPoints * 10;
+      const estimatedMonthlyUplift = i.monthlyRevenue > 0 ? i.monthlyRevenue * (estimatedUpliftPct / 100) : 0;
+      const showRevenueEstimate = i.monthlyRevenue > 0 && ratingGapPoints > 0;
+
       return {
         inputs: i,
         ratingScore: ratingScore,
@@ -1094,7 +1176,12 @@
         compositeScore: compositeScore,
         bandKey: bandKey,
         bandClass: bandClass,
-        blindSpot: blindSpot
+        blindSpot: blindSpot,
+        topPriority: topPriority,
+        hasRealGap: hasRealGap,
+        estimatedUpliftPct: estimatedUpliftPct,
+        estimatedMonthlyUplift: estimatedMonthlyUplift,
+        showRevenueEstimate: showRevenueEstimate
       };
     }
 
@@ -1104,6 +1191,10 @@
         minimumFractionDigits: d,
         maximumFractionDigits: d
       });
+    }
+
+    function formatEuro(n) {
+      return '€' + formatNum(n, 0);
     }
 
     function renderResult(result, pulse) {
@@ -1122,6 +1213,23 @@
       callout.className = 'insight-callout ' + (result.blindSpot ? 'blind-spot' : 'neutral');
       document.getElementById('insightTitle').textContent = t(result.blindSpot ? 'insightBlindTitle' : 'insightNeutralTitle');
       document.getElementById('insightText').textContent = t(result.blindSpot ? 'insightBlind' : 'insightNeutral');
+
+      const priorityCalloutEl = document.getElementById('priorityCallout');
+      if (result.hasRealGap) {
+        priorityCalloutEl.style.display = '';
+        const signalName = t(result.topPriority.rowKey);
+        document.getElementById('priorityTitle').textContent = tf('priorityTitleTpl', { signal: signalName });
+        let actionText = t(result.topPriority.actionKey);
+        if (result.topPriority.key === 'rating' && result.showRevenueEstimate) {
+          actionText += ' ' + tf('revenueEstimateTpl', {
+            pct: result.estimatedUpliftPct.toFixed(0),
+            amount: formatEuro(result.estimatedMonthlyUplift)
+          });
+        }
+        document.getElementById('priorityText').textContent = actionText;
+      } else {
+        priorityCalloutEl.style.display = 'none';
+      }
 
       const i = result.inputs;
       document.getElementById('bd_rating_in').textContent = formatNum(i.rating, 1) + ' / 5';
@@ -1157,6 +1265,7 @@
       document.getElementById('reviewResponseRate').value = DEFAULTS.reviewResponseRate;
       document.getElementById('responseTime').value = DEFAULTS.responseTime;
       document.getElementById('issueRate').value = DEFAULTS.issueRate;
+      document.getElementById('monthlyRevenue').value = DEFAULTS.monthlyRevenue;
       setStructured(DEFAULTS.structured);
       runScore(false);
     }
