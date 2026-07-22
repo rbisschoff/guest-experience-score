@@ -330,11 +330,12 @@
       background: var(--card2);
       border-radius: 8px; padding: 3px;
       border: 0.5px solid var(--border);
-      max-width: 280px;
+      max-width: 100%;
+      flex-wrap: wrap;
     }
     .yesno-btn {
-      flex: 1; border: none; background: transparent;
-      border-radius: 6px; padding: 10px 14px;
+      flex: 1 1 auto; border: none; background: transparent;
+      border-radius: 6px; padding: 10px 12px;
       font-size: 13px; font-weight: 600; color: var(--muted);
       cursor: pointer; font-family: inherit; min-height: 44px;
       transition: all 0.15s;
@@ -702,12 +703,13 @@
 
       <div class="input-group">
         <label id="structuredLabel">
-          <span data-i18n="lblStructured">Do you collect structured feedback beyond public reviews?</span>
-          <span class="info-tip" tabindex="0" data-i18n-tip="tipStructured" data-tip="A post-stay survey, a direct check-in message asking how things are going, anything beyond waiting for a public review.">i</span>
+          <span data-i18n="lblStructured">Do you check in directly with guests (call or message) shortly after arrival, before a problem could become a bad review?</span>
+          <span class="info-tip" tabindex="0" data-i18n-tip="tipStructured" data-tip="A direct call or message shortly after check-in catches a problem while there is still time to fix it during the stay, not just a record of it afterward.">i</span>
         </label>
         <div class="yesno-toggle" role="group" aria-labelledby="structuredLabel">
-          <button type="button" class="yesno-btn" id="structuredYes" onclick="setStructured('yes')" data-i18n="btnYes">Yes</button>
-          <button type="button" class="yesno-btn active" id="structuredNo" onclick="setStructured('no')" data-i18n="btnNo">No</button>
+          <button type="button" class="yesno-btn" id="structuredEvery" onclick="setStructured('every')" data-i18n="btnCheckinEvery">Yes, every stay</button>
+          <button type="button" class="yesno-btn" id="structuredSome" onclick="setStructured('some')" data-i18n="btnCheckinSome">Only some stays</button>
+          <button type="button" class="yesno-btn active" id="structuredNo" onclick="setStructured('no')" data-i18n="btnCheckinNo">No, only if they reach out</button>
         </div>
       </div>
 
@@ -862,10 +864,13 @@
         suffixStays: '% of stays',
         lblMonthlyRevenue: 'Monthly revenue for this property',
         tipMonthlyRevenue: 'Used only to estimate the revenue effect of closing your rating gap. Optional, leave at 0 to skip that estimate.',
-        lblStructured: 'Do you collect structured feedback beyond public reviews?',
-        tipStructured: 'A post-stay survey, a direct check-in message asking how things are going, anything beyond waiting for a public review.',
+        lblStructured: 'Do you check in directly with guests (call or message) shortly after arrival, before a problem could become a bad review?',
+        tipStructured: 'A direct call or message shortly after check-in catches a problem while there is still time to fix it during the stay, not just a record of it afterward.',
         btnYes: 'Yes',
         btnNo: 'No',
+        btnCheckinEvery: 'Yes, every stay',
+        btnCheckinSome: 'Only some stays',
+        btnCheckinNo: 'No, only if they reach out',
         btnCalculate: 'Calculate score',
         resultLabel: 'Guest Experience Score',
         bandStrong: 'Strong',
@@ -880,7 +885,7 @@
         actionIssue: 'Track issues by category for one month. Most operators find two or three recurring causes, often something like wifi or check-in access, that are cheap to fix once identified but invisible until tracked.',
         actionReviewResp: 'Reply to every review, good or bad, within 48 hours. This alone often moves response rate from under 30% to over 80% with no other change.',
         actionMsgResp: 'Turn on mobile push notifications for guest messages, or send an automatic acknowledgement within minutes while you prepare a full reply.',
-        actionStructured: 'Send one message the morning after check-in asking how everything is going so far. That single question, at zero cost, is the structured feedback layer.',
+        actionStructured: 'Call or message every guest the morning after check-in and ask how things are going so far. That single question, at zero cost, catches a problem while you can still fix it, not after they have already left a review.',
         revenueEstimateTpl: 'As a rough rule of thumb (not a precise figure), closing this gap is associated with roughly {pct}% more bookings, which on your numbers would be about {amount} a month.',
         breakdownTitle: 'Score breakdown',
         breakdownDesc: 'Each signal normalised to 0–100, then weighted into the composite score.',
@@ -895,7 +900,7 @@
         rowStructured: 'Structured feedback',
         rowComposite: 'Composite score',
         methodLabel: 'What this means for your operation',
-        methodText: 'Review scores measure what guests were willing to say publicly. They do not measure what almost went wrong, or what a guest decided was not worth mentioning. Response rate, response time, and structured feedback are the signals that catch problems before they become reviews, not after.',
+        methodText: 'Review scores measure what guests were willing to say publicly. They do not measure what almost went wrong, or what a guest decided was not worth mentioning. Response rate, response time, and a direct check-in are the signals that catch problems before they become reviews, not after. A recurring complaint is also worth more than a generic pitch when it comes to persuading an owner to invest in their property, it is real evidence, not an assumption.',
         methodContact: 'Building that listening layer into how you operate is the work I do with operators. If you want to talk it through: <a href="mailto:rbisschoff@gmail.com?subject=Guest%20Experience%20Score" data-contact-tool="guest-experience-score">rbisschoff@gmail.com</a>',
         actRecalculate: 'Recalculate',
         actCopySummary: 'Copy Summary',
@@ -939,10 +944,13 @@
         suffixStays: '% soggiorni',
         lblMonthlyRevenue: 'Ricavo mensile per questa proprietà',
         tipMonthlyRevenue: 'Usato solo per stimare l\'effetto sui ricavi di colmare il divario nel rating. Facoltativo, lascia a 0 per saltare questa stima.',
-        lblStructured: 'Raccogli feedback strutturato oltre alle recensioni pubbliche?',
-        tipStructured: 'Un sondaggio post-soggiorno, un messaggio di check-in per chiedere come va, qualsiasi cosa oltre ad aspettare una recensione pubblica.',
+        lblStructured: 'Ti metti in contatto direttamente con gli ospiti (chiamata o messaggio) poco dopo l\'arrivo, prima che un problema diventi una recensione negativa?',
+        tipStructured: 'Una chiamata o un messaggio diretto poco dopo il check-in coglie un problema mentre c\'è ancora tempo per risolverlo durante il soggiorno, non solo una registrazione di ciò dopo.',
         btnYes: 'Sì',
         btnNo: 'No',
+        btnCheckinEvery: 'Sì, ogni soggiorno',
+        btnCheckinSome: 'Solo alcuni soggiorni',
+        btnCheckinNo: 'No, solo se mi contattano loro',
         btnCalculate: 'Calcola il punteggio',
         resultLabel: 'Guest Experience Score',
         bandStrong: 'Solido',
@@ -957,7 +965,7 @@
         actionIssue: 'Traccia i problemi per categoria per un mese. La maggior parte degli operatori trova due o tre cause ricorrenti, spesso qualcosa come il wifi o l\'accesso al check-in, economiche da risolvere una volta identificate ma invisibili finché non vengono tracciate.',
         actionReviewResp: 'Rispondi a ogni recensione, buona o cattiva, entro 48 ore. Solo questo spesso porta il tasso di risposta da sotto il 30% a oltre l\'80%, senza altri cambiamenti.',
         actionMsgResp: 'Attiva le notifiche push mobili per i messaggi degli ospiti, oppure invia un riconoscimento automatico entro pochi minuti mentre prepari la risposta completa.',
-        actionStructured: 'Invia un messaggio la mattina dopo il check-in chiedendo come sta andando tutto. Quella sola domanda, a costo zero, è il livello di feedback strutturato.',
+        actionStructured: 'Chiama o scrivi a ogni ospite la mattina dopo il check-in chiedendo come sta andando. Quella sola domanda, a costo zero, coglie un problema mentre puoi ancora risolverlo, non dopo che ha già lasciato una recensione.',
         revenueEstimateTpl: 'Come regola empirica (non una cifra precisa), colmare questo divario è associato a circa il {pct}% di prenotazioni in più, che sui tuoi numeri sarebbero circa {amount} al mese.',
         breakdownTitle: 'Dettaglio del punteggio',
         breakdownDesc: 'Ogni segnale normalizzato da 0 a 100, poi ponderato nel punteggio composito.',
@@ -972,7 +980,7 @@
         rowStructured: 'Feedback strutturato',
         rowComposite: 'Punteggio composito',
         methodLabel: 'Cosa significa per la tua operazione',
-        methodText: 'I punteggi delle recensioni misurano ciò che gli ospiti erano disposti a dire pubblicamente. Non misurano ciò che è quasi andato storto, o ciò che un ospite ha deciso non valesse la pena menzionare. Tasso di risposta, tempo di risposta e feedback strutturato sono i segnali che intercettano i problemi prima che diventino recensioni, non dopo.',
+        methodText: 'I punteggi delle recensioni misurano ciò che gli ospiti sono stati disposti a dire pubblicamente. Non misurano ciò che è quasi andato storto, o ciò che un ospite ha deciso di non menzionare. Tasso di risposta, tempo di risposta e un check-in diretto sono i segnali che colgono i problemi prima che diventino recensioni, non dopo. Un reclamo ricorrente vale anche più di una proposta generica quando si tratta di convincere un proprietario a investire nella sua proprietà: è una prova reale, non una supposizione.',
         methodContact: 'Costruire quel livello di ascolto nel modo in cui operi è il lavoro che faccio con gli operatori. Se vuoi parlarne: <a href="mailto:rbisschoff@gmail.com?subject=Guest%20Experience%20Score" data-contact-tool="guest-experience-score">rbisschoff@gmail.com</a>',
         actRecalculate: 'Ricalcola',
         actCopySummary: 'Copia riepilogo',
@@ -1016,10 +1024,13 @@
         suffixStays: '% der Aufenthalte',
         lblMonthlyRevenue: 'Monatsumsatz für dieses Objekt',
         tipMonthlyRevenue: 'Wird nur verwendet, um die Umsatzwirkung des Schließens Ihrer Bewertungslücke zu schätzen. Optional, lassen Sie 0 stehen, um diese Schätzung zu überspringen.',
-        lblStructured: 'Erheben Sie strukturiertes Feedback über öffentliche Bewertungen hinaus?',
-        tipStructured: 'Eine Nachaufenthalt-Umfrage, eine Check-in-Nachricht mit der Frage, wie es läuft, alles jenseits des Wartens auf eine öffentliche Bewertung.',
+        lblStructured: 'Melden Sie sich direkt bei Gästen (Anruf oder Nachricht) kurz nach der Ankunft, bevor ein Problem zu einer schlechten Bewertung werden könnte?',
+        tipStructured: 'Ein direkter Anruf oder eine Nachricht kurz nach dem Check-in erfasst ein Problem, solange noch Zeit ist, es während des Aufenthalts zu beheben, nicht erst eine Aufzeichnung davon danach.',
         btnYes: 'Ja',
         btnNo: 'Nein',
+        btnCheckinEvery: 'Ja, bei jedem Aufenthalt',
+        btnCheckinSome: 'Nur bei manchen Aufenthalten',
+        btnCheckinNo: 'Nein, nur wenn sie sich melden',
         btnCalculate: 'Score berechnen',
         resultLabel: 'Guest Experience Score',
         bandStrong: 'Stark',
@@ -1034,7 +1045,7 @@
         actionIssue: 'Erfassen Sie Probleme einen Monat lang nach Kategorie. Die meisten Betreiber finden zwei oder drei wiederkehrende Ursachen, oft WLAN oder Check-in-Zugang, die günstig zu beheben sind, sobald sie erkannt, aber unsichtbar bleiben, bis sie erfasst werden.',
         actionReviewResp: 'Antworten Sie auf jede Bewertung, gut oder schlecht, innerhalb von 48 Stunden. Allein das hebt die Antwortquote oft von unter 30% auf über 80%, ohne weitere Änderung.',
         actionMsgResp: 'Schalten Sie Push-Benachrichtigungen für Gastnachrichten ein, oder senden Sie innerhalb von Minuten eine automatische Bestätigung, während Sie die vollständige Antwort vorbereiten.',
-        actionStructured: 'Senden Sie am Morgen nach dem Check-in eine Nachricht und fragen Sie, wie bisher alles läuft. Diese eine Frage, ohne Kosten, ist die strukturierte Feedback-Ebene.',
+        actionStructured: 'Rufen Sie jeden Gast am Morgen nach dem Check-in an oder schreiben Sie ihm und fragen Sie, wie es bisher läuft. Diese eine Frage, ohne Kosten, erfasst ein Problem, solange Sie es noch beheben können, nicht erst nachdem eine Bewertung geschrieben wurde.',
         revenueEstimateTpl: 'Als grobe Faustregel (keine präzise Zahl) hängt das Schließen dieser Lücke mit etwa {pct}% mehr Buchungen zusammen, was bei Ihren Zahlen etwa {amount} im Monat wären.',
         breakdownTitle: 'Score-Aufschlüsselung',
         breakdownDesc: 'Jedes Signal auf 0–100 normalisiert, dann gewichtet in den Composite-Score.',
@@ -1049,7 +1060,7 @@
         rowStructured: 'Strukturiertes Feedback',
         rowComposite: 'Composite-Score',
         methodLabel: 'Was das für Ihren Betrieb bedeutet',
-        methodText: 'Bewertungsscores messen, was Gäste öffentlich zu sagen bereit waren. Sie messen nicht, was beinahe schiefging, oder was ein Gast für nicht erwähnenswert hielt. Antwortquote, Antwortzeit und strukturiertes Feedback sind die Signale, die Probleme auffangen, bevor sie zu Bewertungen werden, nicht erst danach.',
+        methodText: 'Bewertungsscores messen, was Gäste öffentlich zu sagen bereit waren. Sie messen nicht, was beinahe schiefging, oder was ein Gast für nicht erwähnenswert hielt. Antwortquote, Antwortzeit und ein direkter Check-in sind die Signale, die Probleme auffangen, bevor sie zu Bewertungen werden, nicht erst danach. Eine wiederkehrende Beschwerde ist auch mehr wert als ein allgemeines Argument, wenn es darum geht, einen Eigentümer von einer Investition in seine Immobilie zu überzeugen, es ist ein echter Beleg, keine Vermutung.',
         methodContact: 'Diese Zuhör-Ebene in Ihre Betriebsweise einzubauen, ist die Arbeit, die ich mit Operatoren mache. Wenn Sie darüber sprechen möchten: <a href="mailto:rbisschoff@gmail.com?subject=Guest%20Experience%20Score" data-contact-tool="guest-experience-score">rbisschoff@gmail.com</a>',
         actRecalculate: 'Neu berechnen',
         actCopySummary: 'Zusammenfassung kopieren',
@@ -1093,8 +1104,9 @@
     }
 
     function setStructured(value) {
-      structuredFeedback = value === 'yes' ? 'yes' : 'no';
-      document.getElementById('structuredYes').classList.toggle('active', structuredFeedback === 'yes');
+      structuredFeedback = (value === 'every' || value === 'some') ? value : 'no';
+      document.getElementById('structuredEvery').classList.toggle('active', structuredFeedback === 'every');
+      document.getElementById('structuredSome').classList.toggle('active', structuredFeedback === 'some');
       document.getElementById('structuredNo').classList.toggle('active', structuredFeedback === 'no');
     }
 
@@ -1128,7 +1140,7 @@
       const issueScore = Math.max(0, 100 - i.issueRate * 2);
       const reviewRespScore = i.reviewResponseRate;
       const msgRespScore = Math.max(0, 100 - i.responseTime * 4);
-      const structuredScore = i.structuredFeedback === 'yes' ? 100 : 0;
+      const structuredScore = i.structuredFeedback === 'every' ? 100 : (i.structuredFeedback === 'some' ? 50 : 0);
 
       const compositeRaw =
         ratingScore * WEIGHT.rating +
@@ -1240,7 +1252,9 @@
       document.getElementById('bd_review_score').textContent = formatNum(result.reviewRespScore, 0);
       document.getElementById('bd_msg_in').textContent = formatNum(i.responseTime, 1) + ' ' + t('suffixHours');
       document.getElementById('bd_msg_score').textContent = formatNum(result.msgRespScore, 0);
-      document.getElementById('bd_struct_in').textContent = i.structuredFeedback === 'yes' ? t('btnYes') : t('btnNo');
+      document.getElementById('bd_struct_in').textContent =
+        i.structuredFeedback === 'every' ? t('btnCheckinEvery') :
+        (i.structuredFeedback === 'some' ? t('btnCheckinSome') : t('btnCheckinNo'));
       document.getElementById('bd_struct_score').textContent = formatNum(result.structuredScore, 0);
       document.getElementById('bd_composite').textContent = formatNum(result.compositeScore, 0);
     }
@@ -1292,7 +1306,7 @@
         tf('summaryReviewResp', { v: formatNum(i.reviewResponseRate, 0) }),
         tf('summaryMsgResp', { v: formatNum(i.responseTime, 1) }),
         tf('summaryIssue', { v: formatNum(i.issueRate, 0) }),
-        tf('summaryStructured', { v: i.structuredFeedback === 'yes' ? t('btnYes') : t('btnNo') }),
+        tf('summaryStructured', { v: i.structuredFeedback === 'every' ? t('btnCheckinEvery') : (i.structuredFeedback === 'some' ? t('btnCheckinSome') : t('btnCheckinNo')) }),
         '',
         t('summaryInsight'),
         insight,
