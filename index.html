@@ -557,6 +557,22 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    @media (min-width: 1000px) {
+      .header-inner,
+      main,
+      .attribution-content,
+      footer {
+        max-width: 1100px;
+      }
+      .card,
+      .breakdown-section {
+        padding: 32px 36px;
+      }
+      .methodology-cta {
+        padding: 40px 44px;
+      }
+    }
+
     @media (max-width: 640px) {
       html, body { overflow-x: clip; }
       .brand-title { font-size: 13px; }
